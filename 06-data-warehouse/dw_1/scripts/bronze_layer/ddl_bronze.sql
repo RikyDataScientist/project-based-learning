@@ -50,9 +50,9 @@ CREATE TABLE bronze.crm_sales_details(
 DROP TABLE IF EXISTS bronze.erp_cust_az12;
 
 CREATE TABLE bronze.erp_cust_az12(
-cid VARCHAR(50),
-bdate date,
-gen VARCHAR(50)
+	cid VARCHAR(50),
+	bdate date,
+	gen VARCHAR(50)
 );
 
 DROP TABLE IF EXISTS bronze.erp_loc_a101;
