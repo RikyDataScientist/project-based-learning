@@ -126,3 +126,47 @@ WHERE sls_sales <> sls_quantity * sls_price
 OR sls_sales IS NULL OR sls_quantity is NULL OR sls_price is NULL
 OR sls_sales <= 0 OR sls_quantity <= 0 OR sls_price <= 0
 ORDER BY sls_sales DESC, sls_quantity DESC, sls_price DESC;
+
+-- ============================================================================
+-- 4. Bronze - erp_cust_az12 Table
+-- ============================================================================
+
+SELECT DISTINCT bdate  -- Check Range of Dates
+FROM bronze.erp_cust_az12
+WHERE bdate < '1926-01-01' OR bdate > CURRENT_DATE;
+
+SELECT DISTINCT gen  -- Data Standardization & Consistency
+FROM bronze.erp_cust_az12;
+
+-- ============================================================================
+-- 5. Bronze - erp_cust_az12 Table
+-- ============================================================================
+
+SELECT DISTINCT country  -- Data Standardization & Consistency
+FROM bronze.erp_loc_a101
+ORDER BY country;
+
+-- ============================================================================
+-- 6. Bronze - erp_px_cat_g1v2 Table
+-- ============================================================================
+
+SELECT cat  -- Check for unwanted trailing spaces
+FROM bronze.erp_px_cat_g1v2
+WHERE cat <> TRIM(cat);
+
+SELECT subcat  -- Check for unwanted trailing spaces
+FROM bronze.erp_px_cat_g1v2
+WHERE subcat <> TRIM(subcat);
+
+SELECT maintenance  -- Check for unwanted trailing spaces
+FROM bronze.erp_px_cat_g1v2
+WHERE maintenance <> TRIM(maintenance);
+
+SELECT DISTINCT cat  -- Data Standardization & Consistency
+FROM bronze.erp_px_cat_g1v2;
+
+SELECT DISTINCT subcat  -- Data Standardization & Consistency
+FROM bronze.erp_px_cat_g1v2;
+
+SELECT DISTINCT maintenance  -- Data Standardization & Consistency
+FROM bronze.erp_px_cat_g1v2;
