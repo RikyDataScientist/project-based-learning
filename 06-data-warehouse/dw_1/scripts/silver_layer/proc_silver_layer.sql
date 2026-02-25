@@ -102,3 +102,57 @@ SELECT
 		ELSE sls_price
 	END AS sls_price
 FROM bronze.crm_sales_details;
+
+TRUNCATE TABLE silver.erp_cust_az12;
+
+INSERT INTO silver.erp_cust_az12 (
+	cid,
+	bdate,
+	gen
+)
+SELECT
+	CASE
+		WHEN cid LIKE 'NAS%' THEN SUBSTR(cid, 4, LENGTH(cid))
+		ELSE cid
+	END AS cid,  -- Remove 'NAS' prefix if exist
+	CASE
+		WHEN bdate > CURRENT_DATE THEN NULL
+		ELSE bdate
+	END AS bdate,  -- Set future birthdates to null
+	CASE
+		WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE') THEN 'Female'
+		WHEN UPPER(TRIM(gen)) IN ('M', 'MALE') THEN 'Male'
+		ELSE 'n/a'  -- Normalize gender values and handle unknown cases
+	END AS gen
+FROM bronze.erp_cust_az12;
+
+TRUNCATE TABLE silver.erp_loc_a101;
+
+INSERT INTO silver.erp_loc_a101 (
+	cid,
+	country
+)
+SELECT
+	REPLACE(cid, '-', '') AS cid,
+	CASE
+		WHEN TRIM(country) = 'DE' THEN 'Germany'
+		WHEN TRIM(country) IN ('US', 'USA') THEN 'United States'
+		WHEN TRIM(country) = '' OR country IS NULL THEN 'n/a'
+		ELSE TRIM(country)
+	END AS country --Normalize and Handling missing or blank country codes
+FROM bronze.erp_loc_a101;
+
+TRUNCATE TABLE silver.erp_px_cat_g1v2;
+
+INSERT INTO silver.erp_px_cat_g1v2 (
+	id,
+	cat,
+	subcat,
+	maintenance
+)
+SELECT
+	id,
+	cat,
+	subcat,
+	maintenance
+FROM bronze.erp_px_cat_g1v2;
