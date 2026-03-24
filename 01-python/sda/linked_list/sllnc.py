@@ -55,12 +55,17 @@ class Linkedlist:
             current = current.next
         current.next = new_node
 
-    def delete_at_begining(self):
+    def delete_at_beginning(self):
         if not self.head:
             print('List is not fill')
+            return
         self.head = self.head.next
 
     def delete_at_end(self):
+        if not self.head:
+            print('List is not fill')
+            return
+
         if not self.head.next:
             self.head = None
             return
@@ -73,15 +78,19 @@ class Linkedlist:
 # 🧪 Example Usage
 if __name__ == "__main__":
     linklist = Linkedlist()
+
     linklist.head = Node(9)
     second = Node(8)
     third = Node(10)
+
     linklist.head.next = third
     third.next = second
+
     linklist.insert_at_beginning(20)
     linklist.insert_at_end(98)
     linklist.insert_at_middle(2, 78)
-    linklist.delete_at_begining()
+
+    linklist.delete_at_beginning()
     linklist.delete_at_end()
 
     linklist.display()
