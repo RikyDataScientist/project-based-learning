@@ -31,8 +31,7 @@ class Linkedlist:
     def insert_at_middle(self, pos, data):
         new_node = Node(data)
         if pos == 0:
-            new_node.next = self.head
-            self.head = new_node
+            self.insert_at_beginning(data)
             return
 
         current = self.head
@@ -57,9 +56,23 @@ class Linkedlist:
 
     def delete_at_beginning(self):
         if not self.head:
-            print('List is not fill')
+            print('List is empty')
             return
         self.head = self.head.next
+
+    def delete_at_middle(self, pos):
+        if pos == 0:
+            self.delete_at_beginning()
+            return
+
+        current = self.head
+        for _ in range(pos - 1):
+            if not current:
+                print('The position out of the length')
+                return
+            current = current.next
+
+        current.next = current.next.next
 
     def delete_at_end(self):
         if not self.head:
@@ -91,6 +104,7 @@ if __name__ == "__main__":
     linklist.insert_at_middle(2, 78)
 
     linklist.delete_at_beginning()
+    linklist.delete_at_middle(1)
     linklist.delete_at_end()
 
     linklist.display()

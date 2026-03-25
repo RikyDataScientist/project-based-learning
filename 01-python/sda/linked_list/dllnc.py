@@ -45,9 +45,7 @@ class DoubleLinkedlist:
                 self.tail = new_node
                 return
 
-            self.head.prev = new_node
-            new_node.next = self.head
-            self.head = new_node
+            self.insert_at_beginning(data)
             return
 
         current = self.head
@@ -81,11 +79,39 @@ class DoubleLinkedlist:
 
     def delete_at_beginning(self):
         if not self.head:
-            print('List is not fill')
+            print('List is empty')
+            return
+
+        if self.head == self.tail:
+            self.head = None
+            self.tail = None
             return
 
         self.head = self.head.next
         self.head.prev = None
+
+    def delete_at_middle(self, pos):
+        if not self.head:
+            print('List is empty')
+            return
+
+        if pos == 0:
+            self.delete_at_beginning()
+            return
+
+        current = self.head
+        for _ in range(pos - 1):
+            if not current:
+                print('The position out of the length')
+                return
+            current = current.next
+
+        if current.next == self.tail:
+            self.tail = current
+            self.tail.next = None
+        else:
+            current.next = current.next.next
+            current.next.prev = current
 
     def delete_at_end(self):
         if not self.head:
@@ -121,6 +147,7 @@ if __name__ == "__main__":
     dllnc.insert_at_middle(3, 56)
 
     dllnc.delete_at_beginning()
+    dllnc.delete_at_middle(2)
     dllnc.delete_at_end()
 
     dllnc.display()
