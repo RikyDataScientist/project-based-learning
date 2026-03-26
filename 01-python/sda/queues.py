@@ -40,6 +40,56 @@ class Queues:
     def Size(self):
         return len(self.queue)
 
+# 📃 Queue Implementation using Single Linked List Non Circular
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class QueueLinkedList:
+    def __init__(self):
+        self.front = None
+        self.rear = None
+        self.Size = 0
+
+    def display(self):
+        current = self.front
+        while current:
+            print(current.data, end=' -> ')
+            current = current.next
+        print('None')
+
+    def enqueue(self, data):
+        new_node = Node(data)
+        if not self.rear:
+            self.front = self.rear = new_node
+            self.Size += 1
+            return
+        self.rear.next = new_node
+        self.rear = new_node
+        self.Size += 1
+
+    def dequeue(self):
+        if self.isEmpty():
+            return "Queue is Empty"
+        temp = self.front
+        self.front = temp.next
+        self.Size -= 1
+        if not self.front:
+            self.rear = None
+        return temp.data
+
+    def peek(self):
+        if self.isEmpty():
+            return "Queue is Empty"
+        return self.front.data
+
+    def isEmpty(self):
+        return self.Size == 0
+
+    def size(self):
+        return self.Size
+
 # 🧪 Example Usage
 if __name__ == "__main__":
     queue = Queues()
@@ -56,3 +106,17 @@ if __name__ == "__main__":
     print(queue.Size())
 
     print(queue.display())
+
+    queuell = QueueLinkedList()
+
+    queuell.enqueue(1)
+    queuell.enqueue(3)
+    queuell.enqueue(5)
+    queuell.enqueue(7)
+    print(queuell.dequeue())
+
+    print(queuell.isEmpty())
+    print(queuell.peek())
+    print(queuell.size())
+
+    queuell.display()
